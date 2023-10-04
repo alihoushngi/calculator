@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #000000;
+  background-image: url(../../public//static/images/Background.jpg);
+  background-size: contain;
+  backdrop-filter: brightness(0.2);
+}
+
+.inner-shadow-custom {
+  box-shadow: inset 0rem -1rem 1rem 9px #28262e,
+    inset 0rem 0rem 11rem 0px #575661;
+}
+
+.outer-shadow-custom {
+  box-shadow: 0rem 0rem 0rem 1px #111010, 0rem 0rem 1rem 0px #36363b;
+}
+
+.shadow-all-custom {
+  box-shadow: 8px 6px 0rem 1px #323131;
+}
+
+.button-shadow {
+  box-shadow: 5px 4px 0px 0px #2a2a31;
+}
+
+.func-button-shadow {
+  box-shadow: 5px 4px 0px 0px #0e0c1b;
+}
