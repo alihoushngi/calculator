@@ -2,11 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Digital";
+  src: url("../../public/static/fonts/digital-7.ttf") format("truetype");
+}
+
+.font-digital {
+  font-family: "Digital", sans-serif;
+}
+
 body {
   background-color: #000000;
   background-image: url(../../public//static/images/Background.jpg);
   background-size: contain;
-  backdrop-filter: brightness(0.2);
+  backdrop-filter: brightness(0.1);
 }
 
 .inner-shadow-custom {
@@ -19,7 +28,7 @@ body {
 }
 
 .shadow-all-custom {
-  box-shadow: 8px 6px 0rem 1px #323131;
+  box-shadow: -5px -5px 0rem 1px #323131;
 }
 
 .button-shadow {

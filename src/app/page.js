@@ -1,16 +1,52 @@
-import Image from "next/image";
+"use client";
+
 import NumberButton from "./components/NumberButton/NumberButton";
 import TopSection from "./components/TopSection/TopSection";
 import FuncButton from "./components/FuncButton/FuncButton";
+import { useState } from "react";
 
 const numbers = [".", "00"];
 for (let i = 0; i < 10; i++) {
   numbers.push(i);
 }
 
-const func = ["-", "%", "/", "*"];
+const functions = ["-", "%", "/", "*"];
 
 export default function Home() {
+  const [number, setNumber] = useState("");
+  const [func, setFunc] = useState("");
+
+  const onFuncHandler = (fn) => {
+    setFunc(fn);
+    setNumber(number + fn);
+  };
+
+  const onButtonHandler = (value) => {
+    if (value === "clear") {
+      clearLastCharacter();
+    } else {
+      setNumber(number + value);
+    }
+  };
+
+  const evaluateExpression = () => {
+    try {
+      const result = eval(number);
+      setNumber(result.toString());
+    } catch (error) {
+      setNumber("Error");
+    }
+  };
+
+  const clearFunc = () => {
+    setNumber("");
+    setFunc("");
+  };
+
+  const clearLastCharacter = () => {
+    setNumber(number.slice(0, -1)); // Remove the last character from the 'number' state
+  };
+
   return (
     <main className="flex flex-col min-h-screen items-center justify-center gap-6">
       <h1 className="uppercase font-extrabold text-white">My calculator</h1>
@@ -19,7 +55,14 @@ export default function Home() {
           <TopSection />
           {/* Screen */}
           <div className="min-w-[80%] min-h-[70px] bg-[#a5a5ac] border-y-8 border-[#706e7d] rounded-xl flex justify-center items-center">
-            <div className="bg-[#9ca892] w-[500px] h-[40px] border border-[#969494] rounded"></div>
+            <div className="bg-[#9ca892] w-[500px] h-[40px] border border-[#969494] rounded">
+              <input
+                className="w-full h-full bg-transparent p-1 font-custom text-4xl tracking-widest placeholder-gray-500 select-none outline-0 cursor-default"
+                value={number}
+                readOnly
+                placeholder="000000000000000000000000"
+              />
+            </div>
           </div>
         </div>
         <div className="h-full p-5 flex">
@@ -34,17 +77,43 @@ export default function Home() {
             </div>
             <div className="flex gap-4 h-full flex-wrap-reverse justify-center">
               {numbers.map((number, index) => {
-                return <NumberButton number={number} key={index} />;
+                return (
+                  <NumberButton
+                    number={number}
+                    key={index}
+                    onClick={(value) => onButtonHandler(value)}
+                  />
+                );
               })}
             </div>
           </div>
           <div className="w-[35%]">
             <div className="flex gap-4 h-full flex-wrap justify-center">
-              {func.map((funcs, index) => {
-                return <FuncButton func={funcs} key={index} />;
+              {functions.map((funcs, index) => {
+                return (
+                  <FuncButton
+                    func={funcs}
+                    key={index}
+                    onClick={(value) => onFuncHandler(value)}
+                  />
+                );
               })}
-              <FuncButton func={"+"} customClass={"h-[100px]"} />
-              <FuncButton func={"="} customClass={"h-[50px]"} />
+              <FuncButton
+                func={"+"}
+                onClick={(value) => onFuncHandler(value)}
+              />
+              <FuncButton func={"="} onClick={() => evaluateExpression()} />
+              <FuncButton
+                func={"Clear"}
+                customClass={"h-[50px] w-[200px] basis-[70%]"}
+                onClick={() => clearFunc()}
+              />
+              <FuncButton
+                func={"Backspace"}
+                customClass={"h-[50px] w-[200px] basis-[70%] text-sm"}
+                number="clear"
+                onClick={() => onButtonHandler("clear")}
+              />
             </div>
           </div>
         </div>
